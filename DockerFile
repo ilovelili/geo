@@ -1,0 +1,18 @@
+FROM golang as builder
+LABEL maintainer="min ju<route666@live.cn>"
+
+ENV SRC_DIR=/go/src/github.com/ilovelili/geo/service
+WORKDIR $SRC_DIR
+COPY ./service .
+# go dep
+RUN go get -u github.com/golang/dep/cmd/dep
+RUN dep init
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o server .
+
+FROM alpine:latest
+RUN apk --no-cache add ca-certificates
+ENV SRC_DIR=/go/src/github.com/ilovelili/geo/service
+WORKDIR /root/
+COPY --from=builder $SRC_DIR/server .
+COPY --from=builder $SRC_DIR/config.json .
+ENTRYPOINT ["./server"]
