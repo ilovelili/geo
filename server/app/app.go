@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/ilovelili/geo/service/config"
+	"github.com/ilovelili/geo/server/config"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"

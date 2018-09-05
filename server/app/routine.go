@@ -2,27 +2,46 @@
 package app
 
 import (
+	"encoding/json"
 	"net/http"
 
-	"github.com/ilovelili/geo/service/util"
+	"github.com/ilovelili/geo/server/util"
 	"golang.org/x/net/context"
 	"googlemaps.github.io/maps"
 )
+
+type georequest struct {
+	Origin      string   `json:"origin"`
+	Destination string   `json:"destination"`
+	WayPoints   []string `json:"way_points"`
+}
 
 // healthcheck health check
 func (app *App) healthcheck(w http.ResponseWriter, r *http.Request) {
 	util.RespondWithJSON(w, http.StatusOK, struct{ Healthy bool }{true})
 }
 
+// geo main geo api
 func (app *App) geo(w http.ResponseWriter, r *http.Request) {
+	decoder := json.NewDecoder(r.Body)
+
+	var gr *georequest
+	err := decoder.Decode(&gr)
+	if err != nil {
+		util.RespondWithError(w, http.StatusBadRequest, "invalid request body")
+		return
+	}
+
 	c, err := maps.NewClient(maps.WithAPIKey(app.Config.APIKey), maps.WithRateLimit(app.Config.RateLimit))
 	if err != nil {
-		util.RespondWithError(w, http.StatusInternalServerError, err.Error())
+		util.RespondWithError(w, http.StatusInternalServerError, "failed to init geo client")
+		return
 	}
 
 	req := &maps.DirectionsRequest{
-		Origin:       "Sangenjaya station, Tokyo",
-		Destination:  "Shibuya station, Tokyo",
+		Origin:       gr.Origin,
+		Destination:  gr.Destination,
+		Waypoints:    gr.WayPoints,
 		TrafficModel: maps.TrafficModelOptimistic,
 		Mode:         maps.TravelModeDriving,
 		Region:       "JP",
@@ -32,7 +51,8 @@ func (app *App) geo(w http.ResponseWriter, r *http.Request) {
 
 	route, _, err := c.Directions(context.Background(), req)
 	if err != nil {
-		util.RespondWithError(w, http.StatusBadGateway, err.Error())
+		util.RespondWithError(w, http.StatusBadGateway, "cannot get direction info")
+		return
 	}
 
 	util.RespondWithJSON(w, http.StatusOK, route)

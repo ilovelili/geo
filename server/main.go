@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/ilovelili/geo/service/app"
+	"github.com/ilovelili/geo/server/app"
 )
 
 // entry
