@@ -5,7 +5,9 @@ services:
       context: .
       dockerfile: DockerFile.server
     image: ilovelili/geo-server
-    restart: always   
+    restart: always    
+    ports:
+      - "3200:3200"   
   client:
     build:
       context: .

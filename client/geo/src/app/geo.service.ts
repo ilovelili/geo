@@ -10,7 +10,7 @@ import { catchError, tap } from 'rxjs/operators';
 })
 export class GeoService {
   // move to config
-  static url = 'http://localhost:3000/geo';
+  static url = 'http://localhost:3200/geo';
 
   constructor(private http: HttpClient, private messageService: MessageService) { }
 

@@ -8,5 +8,5 @@ import (
 func main() {
 	app := &app.App{}
 	app.Initialize()
-	app.Serve(":3000")
+	app.Serve(":3200")
 }
