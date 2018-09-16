@@ -7,7 +7,7 @@ WORKDIR $SRC_DIR
 COPY ./client/geo/package.json $SRC_DIR
 RUN npm install
 COPY ./client/geo $SRC_DIR
-CMD npm run publish
+RUN npm run publish
 
 FROM nginx:alpine
 ENV SRC_DIR=/app
