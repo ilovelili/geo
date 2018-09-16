@@ -15,4 +15,6 @@ ENV SRC_DIR=/go/src/github.com/ilovelili/geo/server
 WORKDIR /root/
 COPY --from=builder $SRC_DIR/server .
 COPY --from=builder $SRC_DIR/config.json .
+# Expose the port the app runs in
+EXPOSE 3000
 ENTRYPOINT ["./server"]
