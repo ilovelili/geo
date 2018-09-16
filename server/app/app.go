@@ -21,7 +21,7 @@ type App struct {
 
 // Serve serve Non-TLS with cros origin support
 func (app *App) Serve(addr string) {
-	handler := cors.Default().Handler(app.Router)
+	handler := cors.AllowAll().Handler(app.Router)
 	log.Fatal(http.ListenAndServe(addr, handler))
 }
 

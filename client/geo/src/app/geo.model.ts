@@ -10,6 +10,23 @@ export class GeoRequest {
     }
 }
 
-export class GeoResponse {
-    // tbd
+export class Route {
+    summary: string;
+    legs: Leg[];
+}
+
+export class Leg {
+    steps: Step[];
+    distance: Distance;
+}
+
+export class Step {
+    html_instructions: string;
+    distance: Distance;
+    duration: number;
+}
+
+export class Distance {
+    text: string;
+    value: number;
 }

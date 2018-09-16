@@ -2,12 +2,8 @@
 package util
 
 import (
-	"bytes"
 	"encoding/json"
 	"net/http"
-
-	"golang.org/x/text/encoding/japanese"
-	"golang.org/x/text/transform"
 )
 
 // Payload payload type
@@ -20,14 +16,11 @@ func RespondWithError(w http.ResponseWriter, code int, message string) {
 
 // RespondWithJSON response with json
 func RespondWithJSON(w http.ResponseWriter, code int, payload Payload) {
-	buf := new(bytes.Buffer)
-	newwriter := transform.NewWriter(buf, japanese.ShiftJIS.NewEncoder())
-
-	defer buf.Reset()
-	defer newwriter.Close()
-
 	w.WriteHeader(code)
-	json.NewEncoder(newwriter).Encode(payload)
-	w.Write(buf.Bytes())
+	b, err := json.Marshal(payload)
+	if err != nil {
+		RespondWithError(w, code, err.Error())
+	}
+	w.Write(b)
 	w.Header().Set("Content-Type", "application/json")
 }

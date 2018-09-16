@@ -1,0 +1,10 @@
+<div *ngIf="routeService.steps.length" class="container">
+
+  <h4>Routes</h4>
+  <button class="btn btn-primary" (click)="routeService.clear()">clear</button>
+  <div class="label label-success">Total: {{routeService.total}} meters</div>
+
+  <ul class="list-group">
+    <li class="list-group-item" *ngFor='let step of routeService.steps' [innerHTML]='routeService.format(step)'></li>
+  </ul>
+</div>

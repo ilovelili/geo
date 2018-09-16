@@ -16,3 +16,4 @@ WORKDIR /root/
 COPY --from=builder $SRC_DIR/server .
 COPY --from=builder $SRC_DIR/config.json .
 ENTRYPOINT ["./server"]
+EXPOSE 3000

@@ -13,7 +13,7 @@ import (
 type georequest struct {
 	Origin      string   `json:"origin"`
 	Destination string   `json:"destination"`
-	WayPoints   []string `json:"way_points"`
+	WayPoints   []string `json:"waypoints"`
 }
 
 // healthcheck health check
@@ -39,14 +39,12 @@ func (app *App) geo(w http.ResponseWriter, r *http.Request) {
 	}
 
 	req := &maps.DirectionsRequest{
-		Origin:       gr.Origin,
-		Destination:  gr.Destination,
-		Waypoints:    gr.WayPoints,
-		TrafficModel: maps.TrafficModelOptimistic,
-		Mode:         maps.TravelModeDriving,
-		Region:       "JP",
-		Language:     "ja",
-		Optimize:     true,
+		Origin:      gr.Origin,
+		Destination: gr.Destination,
+		Waypoints:   gr.WayPoints,
+		Mode:        maps.TravelModeDriving,
+		Region:      "JP",
+		Optimize:    true,
 	}
 
 	route, _, err := c.Directions(context.Background(), req)
