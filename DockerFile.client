@@ -7,12 +7,12 @@ WORKDIR $SRC_DIR
 COPY ./client/geo/package.json $SRC_DIR
 RUN npm install
 COPY ./client/geo $SRC_DIR
-CMD ["npm", "run", "publish"]
+CMD npm run publish
 
 FROM nginx:alpine
 ENV SRC_DIR=/app
 COPY nginx.conf /etc/nginx/nginx.conf
 WORKDIR /usr/share/nginx/html
 
-COPY --from=builder $SRC_DIR/dist/geo .
+COPY --from=builder $SRC_DIR/dist .
 EXPOSE 4200
