@@ -9,6 +9,7 @@ export class RouteService {
   total = 0;
   add(step: Step) {
     this.steps.push(step);
+    this.total += step.distance.value;
   }
 
   clear() {
@@ -17,7 +18,6 @@ export class RouteService {
   }
 
   format(step: Step): string {
-    this.total += step.distance.value;
     return `${decodeURIComponent(step.html_instructions)}, ${step.distance.text}`;
   }
 }

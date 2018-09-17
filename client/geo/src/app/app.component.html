@@ -4,15 +4,15 @@
   <!-- error msg if any -->
   <!-- <app-messages></app-messages> -->
   <!-- show route if any -->
-  <app-route></app-route>
-
+  <iframe *ngIf="src.length" width="600" height="450" frameborder="0" style="border:0" [src]="src | safe" allowfullscreen></iframe>
+  <app-route></app-route>  
   <div [style.margin-top.px]="10" [style.margin-bottom.px]="20" class="row col-md-12">
     <form class="form" (ngSubmit)="create(origin.value, destination.value, waypoints.value)">
       <div class="form-group">
         <label for="origin">Origin</label>
         <input type="text" class="form-control" [style.min-width.px]="500" id="origin" #origin placeholder="e.g. Shibuya Station"
           required>
-      </div>
+      </div>      
 
       <div class="form-group">
         <label for="destination">Destination</label>

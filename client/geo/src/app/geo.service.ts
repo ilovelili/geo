@@ -4,14 +4,12 @@ import { GeoRequest, Route } from './geo.model';
 import { MessageService } from './message.service';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GeoService {
-  // move to config
-  static url = 'http://0.0.0.0:3200/geo';
-
   constructor(private http: HttpClient, private messageService: MessageService) { }
 
   getGeo(origin: string, destination: string, waypoints: string[]): Observable<Route[]> {
@@ -22,7 +20,7 @@ export class GeoService {
     const request = new GeoRequest(origin, destination, waypoints);
 
     const r: Route[] = [];
-    return this.http.post<Route[]>(GeoService.url, request, options).pipe(
+    return this.http.post<Route[]>(this.resolveUrl(), request, options).pipe(
       tap(geo => this.log(`fetched geo ${geo}`)),
       catchError(this.handleError('getGeo', r))
     );
@@ -39,5 +37,12 @@ export class GeoService {
   /** Log a GeoService message with the MessageService */
   private log(message: string) {
     this.messageService.add(`GeoService: ${message}`);
+  }
+
+  private resolveUrl(): string {
+    if (environment.production) {
+      return `http://188.166.244.244:3200/geo`;
+    }
+    return `http://0.0.0.0:3200/geo`;
   }
 }
