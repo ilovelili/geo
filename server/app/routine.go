@@ -44,6 +44,7 @@ func (app *App) geo(w http.ResponseWriter, r *http.Request) {
 		Waypoints:   gr.WayPoints,
 		Mode:        maps.TravelModeDriving,
 		Region:      "JP",
+		Language:    "ja",
 		Optimize:    true,
 	}
 
