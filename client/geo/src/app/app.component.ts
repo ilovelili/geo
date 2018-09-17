@@ -18,7 +18,7 @@ export class SafePipe implements PipeTransform {
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  private src = '';
+  src = '';
   constructor(private geoService: GeoService, private routeService: RouteService) { }
 
   create(origin: string, destination: string, waypoints: string) {
