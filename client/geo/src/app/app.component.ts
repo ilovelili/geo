@@ -22,7 +22,7 @@ export class AppComponent {
   constructor(private geoService: GeoService, private routeService: RouteService) { }
 
   create(origin: string, destination: string, waypoints: string) {
-    this.src = `https://www.google.com/maps/embed/v1/directions?key=AIzaSyDtR1i_vcnrR-MhsNUBTxNGLKneEPQtrfI&origin=${origin}&destination=${destination}&waypoints=${waypoints}`;
+    this.src = this.resolveurl(origin, destination, waypoints);
     const waypointsarr = waypoints.split('|');
     this.routeService.clear();
     this.geoService.getGeo(origin, destination, waypointsarr)
@@ -38,5 +38,12 @@ export class AppComponent {
         this.routeService.add(j);
       }
     }
+  }
+
+  private resolveurl(origin: string, destination: string, waypoints: string): string {
+    if (waypoints.length) {
+      return `https://www.google.com/maps/embed/v1/directions?key=AIzaSyDtR1i_vcnrR-MhsNUBTxNGLKneEPQtrfI&origin=${origin}&destination=${destination}&waypoints=${waypoints}`;
+    }
+    return `https://www.google.com/maps/embed/v1/directions?key=AIzaSyDtR1i_vcnrR-MhsNUBTxNGLKneEPQtrfI&origin=${origin}&destination=${destination}`;
   }
 }
